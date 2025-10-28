@@ -20,14 +20,14 @@ import us.lsi.graphics.MatPlotLib;
 public class TestEjercicio5 {
 		
 	private static Integer nMin = 32;
-	private static Integer nMax = 5000; 
-	private static Integer razon = 2; 
+	private static Integer nMax = 10000; 
+	private static Integer razon = 3300; 
 	private static Integer nIter = 40; 
-	private static Integer nIterWarmup = 10000;
+	private static Integer nIterWarmup = 5000;
 	
-	public static void genDataGeometrico(Consumer<Integer> algorithm,String file,Integer tMin,Integer tMax,Integer razon,Integer numIter,Integer numIterWarmup) {
+	public static void genData (Consumer<Integer> algorithm, String file) {
 		Function<Integer,Long> f1 = GenData.time(algorithm);
-		GenData.tiemposEjecucionGeometrica(f1,file,tMin,tMax,razon,numIter,numIterWarmup);
+		GenData.tiemposEjecucionAritmetica(f1,file,nMin,nMax,razon,nIter,nIterWarmup);
 	}
 	
 	public static void show(Fit pl, String file, String label) {
@@ -35,7 +35,6 @@ public class TestEjercicio5 {
 		pl.fit(data);
 		MatPlotLib.show(file, pl.getFunction(), String.format("%s = %s",label,pl.getExpression()));
 	}
-
 	
 	public static void showCombined() {
 		MatPlotLib.showCombined("Tiempos",
@@ -44,15 +43,15 @@ public class TestEjercicio5 {
 	}
 	
 	public static void main(String[] args) {
-		genDataGeometrico(t-> Ejercicio5.ejercicio5RecBigInteger(t),"ficheros_generados/p5/recBI.txt",nMin,nMax,razon,nIter,nIterWarmup);
-		genDataGeometrico(Ejercicio5::ejercicio5RecDouble,"ficheros_generados/p5/recD.txt",nMin, nMax, razon, nIter, nIterWarmup);
-		genDataGeometrico(Ejercicio5::ejercicio5ItBigInteger,"ficheros_generados/p5/iteBI.txt",nMin, nMax, razon, nIter, nIterWarmup);
-		genDataGeometrico(Ejercicio5::ejercicio5ItDouble,"ficheros_generados/p5/iteD.txt",nMin, nMax, razon, nIter, nIterWarmup);
+		//genData(t-> Ejercicio5.ejercicio5RecBigInteger(t),"ficheros_generados/p5/recBI.txt");
+		//genData(Ejercicio5::ejercicio5RecDouble,"ficheros_generados/p5/recD.txt");
+		//genData(Ejercicio5::ejercicio5ItBigInteger,"ficheros_generados/p5/iteBI.txt");
+		//genData(Ejercicio5::ejercicio5ItDouble,"ficheros_generados/p5/iteD.txt");
 		
-		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/recBI.txt","rec_mem_d");
-		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/recD.txt","rec_mem_d");
-		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/iteBI.txt","iter_d");
-		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/iteD.txt","pm_d");
+		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/recBI.txt","rec_bi");
+		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/recD.txt","rec_d");
+		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/iteBI.txt","iter_bi");
+		show(PowerLog.of(List.of(Pair.of(2, 0.),Pair.of(3, 0.))), "ficheros_generados/p5/iteD.txt","iter_d");
 		
 		showCombined();
 	}
